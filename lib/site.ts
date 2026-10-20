@@ -44,6 +44,23 @@ export const site = {
   video: {
     src: (process.env.NEXT_PUBLIC_VIDEO_URL || null) as string | null,
     poster: null as string | null,
+
+    /**
+     * Tillfällig illustrationsvideo (på Davids begäran) som visas tills den officiella
+     * produktvideon finns. Används bara när `src` saknas – en officiell länk har alltid
+     * företräde. Sätt till `null` för att visa "Video kommer snart"-presentationen igen.
+     *
+     * Källa: "Side View Of A Woman Working Using Laptop" av Katrin Bolovtsova,
+     * https://www.pexels.com/video/side-view-of-a-woman-working-using-laptop-5390861/
+     * Licens: Pexels License (https://www.pexels.com/license/) – fri användning, även
+     * kommersiell, utan krav på attribution. Får inte antyda att personen i videon
+     * står bakom produkten. Klippet har inget ljudspår och visar ingen programvara.
+     */
+    temporary: {
+      src: "/videos/illustration-laptop-typing.mp4",
+      poster: "/videos/illustration-laptop-typing-poster.jpg",
+      credit: "Katrin Bolovtsova / Pexels",
+    } as { src: string; poster: string; credit: string } | null,
   },
 } as const;
 

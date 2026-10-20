@@ -124,27 +124,86 @@ function VideoPlaceholder() {
 }
 
 /**
- * Product video directly after the hero (David's brief). Shows the verified
- * YouTube/Vimeo link or local file from site.video.src / NEXT_PUBLIC_VIDEO_URL,
- * and an honest, non-playable placeholder until one is configured.
+ * Temporary stock footage (David's request) until the official video exists.
+ * Native controls, no autoplay and no audio track; clearly labelled as an
+ * illustration on the frame and in the caption so it is never mistaken for
+ * the product or for an endorsement by the person shown.
+ */
+function TemporaryVideo({ src, poster }: { src: string; poster: string }) {
+  return (
+    <div className="relative size-full">
+      <video
+        controls
+        playsInline
+        muted
+        preload="none"
+        poster={poster}
+        aria-label="Illustrationsvideo: en person skriver på en bärbar dator. Visar inte den faktiska Ansök AI-plattformen."
+        aria-describedby="video-illustration-note"
+        className="size-full bg-navy-950 object-cover"
+      >
+        <source src={src} type="video/mp4" />
+        Din webbläsare stöder inte videouppspelning.
+      </video>
+      {/* Label sits at the top, clear of the native controls along the bottom edge. */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-700 shadow-sm ring-1 ring-brand-200 backdrop-blur-sm sm:top-4 sm:left-4"
+      >
+        <Clapperboard className="size-3.5" />
+        Illustrationsvideo
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Product video directly after the hero (David's brief). Priority:
+ * 1. the verified official video from site.video.src / NEXT_PUBLIC_VIDEO_URL,
+ * 2. the labelled temporary illustration video (site.video.temporary),
+ * 3. an honest, non-playable "coming soon" placeholder.
  */
 export function VideoShowcase() {
+  const temporary = site.video.src ? null : site.video.temporary;
+
   return (
     // Small bottom padding: the market section below already has generous top padding.
     <section id="video" aria-labelledby="video-rubrik" className="relative bg-white pb-6 sm:pb-8">
       <Container className="relative">
-        <SectionHeading id="video-rubrik" eyebrow="Produktvideo" title="Se Ansök AI I Praktiken" />
+        <SectionHeading
+          id="video-rubrik"
+          eyebrow="Produktvideo"
+          title="Se Ansök AI I Praktiken"
+          description={
+            temporary
+              ? "Den officiella produktvideon publiceras här när den är klar. Tills dess visas en illustrationsvideo."
+              : undefined
+          }
+        />
 
         <Reveal y={40} className="mt-10 sm:mt-12">
-          <div className="mx-auto max-w-5xl rounded-[1.75rem] bg-white p-2 shadow-[0_30px_80px_-35px_rgb(29_85_235/0.45)] ring-1 ring-slate-200 sm:p-3">
-            <div className="aspect-video overflow-hidden rounded-[1.25rem] ring-1 ring-slate-200">
-              {site.video.src ? (
-                <VideoPlayer src={site.video.src} poster={site.video.poster} />
-              ) : (
-                <VideoPlaceholder />
-              )}
+          <figure className="mx-auto max-w-5xl">
+            <div className="rounded-[1.75rem] bg-white p-2 shadow-[0_30px_80px_-35px_rgb(29_85_235/0.45)] ring-1 ring-slate-200 sm:p-3">
+              <div className="aspect-video overflow-hidden rounded-[1.25rem] ring-1 ring-slate-200">
+                {site.video.src ? (
+                  <VideoPlayer src={site.video.src} poster={site.video.poster} />
+                ) : temporary ? (
+                  <TemporaryVideo src={temporary.src} poster={temporary.poster} />
+                ) : (
+                  <VideoPlaceholder />
+                )}
+              </div>
             </div>
-          </div>
+            {temporary && (
+              <figcaption
+                id="video-illustration-note"
+                className="mt-4 flex flex-col items-center gap-1 text-center text-sm text-slate-600 sm:flex-row sm:justify-center sm:gap-2"
+              >
+                <span>Illustrationsvideo – visar inte den faktiska Ansök AI-plattformen.</span>
+                <span className="text-xs text-slate-500">Video: {temporary.credit}</span>
+              </figcaption>
+            )}
+          </figure>
         </Reveal>
       </Container>
     </section>
