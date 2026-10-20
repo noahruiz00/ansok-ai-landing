@@ -1,8 +1,8 @@
 import { Clock, FlaskConical, Globe2, Hammer } from "lucide-react";
-import { BookingButton, BookingUnavailable } from "@/components/ui/booking-button";
+import { BookingButton, BookingUnavailable, MeetingRequestButton } from "@/components/ui/booking-button";
 import { Container } from "@/components/ui/container";
 import { Reveal } from "@/components/ui/reveal";
-import { isBookingPlaceholder } from "@/lib/site";
+import { contactEmail, meetingMode, meetingRequestHref } from "@/lib/site";
 
 /** Summary of the company story (see story.tsx) – no traction, revenue or partnership claims. */
 const journey = [
@@ -52,7 +52,16 @@ export function FinalCta() {
             </ul>
 
             <div className="mt-10 flex flex-col items-center gap-4">
-              {isBookingPlaceholder ? (
+              {meetingMode === "email" && meetingRequestHref && contactEmail ? (
+                <>
+                  <MeetingRequestButton href={meetingRequestHref} describedBy="motesforfragan-info" />
+                  <p id="motesforfragan-info" className="max-w-xs text-sm leading-relaxed text-slate-600 sm:max-w-none">
+                    Öppnar ett e-postutkast till{" "}
+                    <span className="font-medium break-all text-navy-950">{contactEmail}</span>. Onlinebokning
+                    är inte öppen ännu.
+                  </p>
+                </>
+              ) : meetingMode === "unavailable" ? (
                 <>
                   <BookingUnavailable statusId="bokning-status" />
                   <p

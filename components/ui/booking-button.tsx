@@ -1,4 +1,4 @@
-import { ArrowRight, CalendarCheck, CalendarClock } from "lucide-react";
+import { ArrowRight, CalendarCheck, CalendarClock, Mail } from "lucide-react";
 import { bookingUrl } from "@/lib/site";
 
 type BookingButtonProps = {
@@ -27,7 +27,7 @@ const base =
 /**
  * Primary CTA. Links (in a new tab) to the CEO's validated https booking page
  * once one is configured; until then it scrolls to the #boka-mote section,
- * which explains that booking is not open yet.
+ * which offers an e-mail meeting request or explains that booking is not open yet.
  */
 export function BookingButton({
   label = "Boka Möte Med Vår VD",
@@ -53,6 +53,29 @@ export function BookingButton({
         className="size-[1.05em] transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none"
       />
       {isExternal && <span className="sr-only">(öppnas i ny flik)</span>}
+    </a>
+  );
+}
+
+/**
+ * E-mail fallback used in #boka-mote when no booking URL exists but a contact
+ * email is configured. The label says "Förfråga" (request), not "Boka", because
+ * it opens an e-mail draft rather than a booking page. Same look as the primary CTA.
+ */
+export function MeetingRequestButton({ href, describedBy }: { href: string; describedBy: string }) {
+  return (
+    <a
+      href={href}
+      aria-describedby={describedBy}
+      // Longer label than "Boka Möte Med Vår VD": below 400px it may wrap onto two lines (and drops the arrow) instead of overflowing the card.
+      className={`group ${base} max-w-full transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-400 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${variants.primary} ${sizes.lg} max-[399px]:h-auto max-[399px]:min-h-14 max-[399px]:py-2.5 max-[399px]:leading-snug max-[399px]:whitespace-normal`}
+    >
+      <Mail aria-hidden className="size-[1.15em] shrink-0" />
+      <span className="text-balance">Förfråga Möte Med Vår VD</span>
+      <ArrowRight
+        aria-hidden
+        className="size-[1.05em] shrink-0 transition-transform duration-300 group-hover:translate-x-0.5 motion-reduce:transition-none max-[399px]:hidden"
+      />
     </a>
   );
 }

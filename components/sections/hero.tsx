@@ -86,9 +86,8 @@ export function Hero() {
               id="hero-rubrik"
               className="mx-auto mt-7 max-w-2xl font-display text-[2rem] leading-[1.08] font-extrabold tracking-tight text-balance min-[400px]:text-[2.5rem] sm:text-5xl lg:mx-0 lg:text-[3.25rem] xl:text-6xl"
             >
-              Få <span className="text-gradient-hero">Fler Intervjuer</span>
-              &nbsp;– Utan Timmar Av
-              Jobbansökningar
+              {/* David's requested headline – the figure is company-provided (see the note below and the market section). */}
+              Ett Problem Som <span className="text-gradient-hero">1,2&nbsp;Miljoner</span> Människor Möter Varje Dag
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-pretty text-slate-600 sm:text-xl lg:mx-0">
@@ -99,7 +98,7 @@ export function Hero() {
             <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
               <BookingButton />
               <a
-                href="#video"
+                href="#produkt"
                 className="inline-flex h-14 items-center gap-2.5 whitespace-nowrap rounded-full bg-white px-5 text-base font-semibold sm:px-7 text-navy-950 shadow-sm ring-1 ring-slate-200 transition-colors hover:bg-brand-50 hover:ring-brand-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-500"
               >
                 <PlayCircle aria-hidden className="size-5 text-brand-600" />
@@ -115,6 +114,7 @@ export function Hero() {
                 </li>
               ))}
             </ul>
+            <p className="mt-4 text-xs text-slate-500">Uppgifter enligt Ansök AI – inväntar verifiering.</p>
           </div>
 
           {/* Product preview */}

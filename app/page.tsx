@@ -5,6 +5,7 @@ import { Market } from "@/components/sections/market";
 import { Navbar } from "@/components/sections/navbar";
 import { ProductShowcase } from "@/components/sections/product-showcase";
 import { Story } from "@/components/sections/story";
+import { MatchingDemo } from "@/components/sections/matching-demo";
 import { VideoShowcase } from "@/components/sections/video-showcase";
 
 export default function Home() {
@@ -19,10 +20,14 @@ export default function Home() {
       <Navbar />
       <main id="innehall">
         <Hero />
+        {/* Product video directly after the hero (David's brief). Honest placeholder until a verified URL is set. */}
         <VideoShowcase />
+        {/* David's core business story */}
         <Market />
-        <ProductShowcase />
         <Story />
+        {/* Supporting demonstrations: real screenshot + labelled illustrations, then the fictional-data demo */}
+        <ProductShowcase />
+        <MatchingDemo />
         <FinalCta />
       </main>
       <Footer />

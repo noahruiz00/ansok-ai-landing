@@ -18,35 +18,37 @@ type Metric = {
 };
 
 /**
- * Investor-safe wording (Step 13): no unverified numbers, no claims of proven
- * product-market fit, market size or revenue. The only company-provided factual
- * claim (paying prototype customers) is attributed and awaits founder confirmation.
+ * David's requested statements, kept verbatim for founder review. They are
+ * company-provided and NOT independently verified: every card shows its source,
+ * the section shows a verification note, and the development-only notes list
+ * exactly what must be confirmed.
  */
 const metrics: Metric[] = [
   {
     icon: Users,
     label: "Marknadsbehov",
-    title: "Ett Tydligt Behov",
-    description:
-      "Att hitta relevanta jobb och skriva ansökningar kan vara tidskrävande. Ansök AI utvecklar verktyg för att förenkla delar av processen.",
+    title: "1,2 Miljoner",
+    description: "Jobbsökande i Norden som möter detta problem varje dag.",
+    source: "Källa: Ansök AI",
+    needsConfirmation:
+      "Bekräfta källa och definition för 1,2 miljoner: vilka länder, vilken period och hur ”jobbsökande” räknas.",
   },
   {
     icon: BadgeCheck,
     label: "Validering",
-    title: "Tidig Validering",
-    description:
-      "Enligt Ansök AI hade den tidiga prototypen betalande kunder – en första signal om efterfrågan och en grund att bygga vidare på.",
+    title: "VALIDERAD PRODUCT-MARKET FIT",
+    description: "Kunder betalade direkt för en tidig prototyp, vilket bevisade den extrema efterfrågan.",
     source: "Källa: Ansök AI",
     needsConfirmation:
-      "Bekräfta att den tidiga prototypen hade betalande kunder (antal, period och pris) innan uppgiften presenteras för investerare.",
+      "Bekräfta antal betalande kunder, period och pris för prototypen – och att det räcker för att kalla det ”validerad product-market fit”.",
   },
   {
     icon: Globe2,
-    label: "Möjlighet",
-    // Soft hyphen (U+00AD): lets the long compound break as "Marknads-/potential" in narrow cards only.
-    title: "Marknads\u00ADpotential",
-    description:
-      "Liknande AI-drivna tjänster för jobbsökande finns på internationella marknader. Ansök AI ser möjligheter att utveckla en tjänst anpassad för svenska och nordiska jobbsökande.",
+    label: "Affärsmodell",
+    title: "MULTI-MILJON MARKNAD",
+    description: "Samma affärsmodell omsätter redan miljoner i USA.",
+    source: "Källa: Ansök AI",
+    needsConfirmation: "Ange vilka amerikanska bolag som avses och en källa för deras omsättning (valuta och år).",
   },
 ];
 
@@ -73,7 +75,7 @@ function MetricCard({ metric }: { metric: Metric }) {
         </span>
       </div>
 
-      <h3 className="mt-8 font-display text-[1.75rem] leading-tight font-extrabold tracking-tight text-balance text-navy-950 sm:text-3xl lg:min-h-[2.5em] xl:min-h-0">
+      <h3 className="mt-8 font-display text-2xl leading-tight font-extrabold tracking-tight text-balance text-navy-950 sm:text-[1.625rem] lg:min-h-[3.75em] xl:min-h-[2.5em]">
         {title}
       </h3>
 
@@ -107,7 +109,7 @@ export function Market() {
     <section
       id="marknad"
       aria-labelledby="marknad-rubrik"
-      className="relative overflow-hidden bg-white py-24 sm:py-32"
+      className="relative overflow-hidden bg-white pt-24 pb-10 sm:pt-32 sm:pb-12"
     >
       <div
         aria-hidden
@@ -117,8 +119,8 @@ export function Market() {
         <SectionHeading
           id="marknad-rubrik"
           eyebrow="Marknaden"
-          title="Från Marknadsbehov Till Tidig Validering"
-          description="Jobbsökandet kan bli enklare och mer effektivt. Tidiga signaler från vår prototyp ger oss en grund att bygga vidare på – i Sverige och i resten av Norden."
+          title="Från Marknadsbehov Till Betalande Kunder"
+          description="Så beskriver Ansök AI behovet, den tidiga valideringen och marknaden."
         />
 
         <div className="mx-auto mt-14 grid max-w-xl gap-5 sm:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-6 xl:gap-8">
@@ -130,8 +132,8 @@ export function Market() {
         </div>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-pretty text-slate-600">
-          Uppgifterna ovan kommer från Ansök AI och har inte granskats av en extern part. Fråga
-          gärna om underlaget vid ett möte med vår VD.
+          Uppgifter enligt Ansök AI. Marknadsstorlek, kundbetalningar och internationella jämförelser inväntar
+          verifiering.
         </p>
       </Container>
     </section>

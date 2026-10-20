@@ -1,9 +1,16 @@
-import { Play } from "lucide-react";
+import { Clapperboard, Clock, FileUp, SearchCheck, Zap } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { Container } from "@/components/ui/container";
-import { PlaceholderBadge } from "@/components/ui/placeholder-badge";
 import { Reveal } from "@/components/ui/reveal";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { site } from "@/lib/site";
+
+/** What the walkthrough will cover – the same three steps as the product section (no new claims). */
+const walkthroughTopics = [
+  { icon: FileUp, label: "Ladda upp ditt CV" },
+  { icon: SearchCheck, label: "Hitta relevanta jobb" },
+  { icon: Zap, label: "Automatisera ansökningar" },
+];
 
 const isVideoFile = (src: string) => /\.(mp4|webm|mov)(\?.*)?$/i.test(src);
 
@@ -60,12 +67,16 @@ function VideoPlayer({ src, poster }: { src: string; poster: string | null }) {
   );
 }
 
-/** Branded, clearly non-playable preview shown until a verified video URL is configured. */
+/**
+ * Branded "coming soon" presentation shown until a verified video URL is configured.
+ * Deliberately has no play button or other control: nothing here is clickable,
+ * and the status pill states plainly that the video is not available yet.
+ */
 function VideoPlaceholder() {
   return (
     <div
       data-placeholder="product-video"
-      className="relative flex size-full items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-cyan-50 px-4 text-center sm:px-6"
+      className="relative flex size-full items-center justify-center overflow-hidden bg-gradient-to-br from-brand-50 via-white to-cyan-50 px-4 text-center sm:px-8"
     >
       <div
         aria-hidden
@@ -79,36 +90,52 @@ function VideoPlaceholder() {
       </div>
 
       <div className="relative flex flex-col items-center">
-        {/* Static (non-interactive) play symbol – signals "video", not "click to play" */}
+        {/* Film icon in a tile (not a round play button) – signals "video" without suggesting it can be played */}
         <span
           aria-hidden
-          className="flex size-9 items-center justify-center rounded-full bg-white text-brand-600 min-[400px]:size-11 shadow-[0_10px_30px_-12px_rgb(29_85_235/0.5)] ring-1 ring-brand-200 sm:size-20"
+          className="flex size-9 items-center justify-center rounded-xl bg-white text-brand-600 shadow-[0_10px_30px_-12px_rgb(29_85_235/0.45)] ring-1 ring-brand-200 min-[400px]:size-11 sm:size-16 sm:rounded-2xl"
         >
-          <Play className="ml-0.5 size-4 min-[400px]:size-5 sm:ml-1 sm:size-8" strokeWidth={2} />
+          <Clapperboard className="size-4 min-[400px]:size-5 sm:size-7" strokeWidth={1.75} />
         </span>
-        <p className="mt-2 font-display text-base font-bold text-navy-950 min-[400px]:mt-3 min-[400px]:text-lg sm:mt-6 sm:text-2xl lg:text-3xl">
-          Produktvideo kommer snart
+        <p className="mt-2 font-display text-base leading-tight font-bold text-navy-950 min-[400px]:mt-3 min-[400px]:text-lg sm:mt-5 sm:text-2xl lg:text-3xl">
+          En närmare titt på Ansök AI
         </p>
-        <p className="mt-2 hidden max-w-md text-base text-slate-600 sm:block">
-          Här visas en genomgång av hur Ansök AI fungerar i praktiken.
+        <p className="mt-2 hidden max-w-md text-base leading-relaxed text-slate-600 min-[400px]:block min-[400px]:text-sm sm:text-base">
+          En produktgenomgång publiceras här när den är redo.
         </p>
-        <div className="mt-2 min-[400px]:mt-3 sm:mt-5">
-          <PlaceholderBadge tone="light">Platshållare – video tillkommer</PlaceholderBadge>
-        </div>
+        <span className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200 min-[400px]:mt-3 sm:mt-5">
+          <Clock aria-hidden className="size-3.5" />
+          Video kommer snart
+        </span>
+        <ul
+          aria-label="Genomgången kommer att visa"
+          className="mt-6 hidden items-center gap-x-5 gap-y-2 text-sm text-slate-600 md:flex"
+        >
+          {walkthroughTopics.map(({ icon: Icon, label }) => (
+            <li key={label} className="inline-flex items-center gap-1.5">
+              <Icon aria-hidden className="size-4 text-brand-600" />
+              {label}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
+/**
+ * Product video directly after the hero (David's brief). Shows the verified
+ * YouTube/Vimeo link or local file from site.video.src / NEXT_PUBLIC_VIDEO_URL,
+ * and an honest, non-playable placeholder until one is configured.
+ */
 export function VideoShowcase() {
   return (
-    <section id="video" aria-labelledby="video-rubrik" className="relative bg-white pb-24 sm:pb-32">
-      <h2 id="video-rubrik" className="sr-only">
-        Produktvideo
-      </h2>
-
+    // Small bottom padding: the market section below already has generous top padding.
+    <section id="video" aria-labelledby="video-rubrik" className="relative bg-white pb-6 sm:pb-8">
       <Container className="relative">
-        <Reveal y={40}>
+        <SectionHeading id="video-rubrik" eyebrow="Produktvideo" title="Se Ansök AI I Praktiken" />
+
+        <Reveal y={40} className="mt-10 sm:mt-12">
           <div className="mx-auto max-w-5xl rounded-[1.75rem] bg-white p-2 shadow-[0_30px_80px_-35px_rgb(29_85_235/0.45)] ring-1 ring-slate-200 sm:p-3">
             <div className="aspect-video overflow-hidden rounded-[1.25rem] ring-1 ring-slate-200">
               {site.video.src ? (

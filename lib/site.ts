@@ -1,7 +1,7 @@
 /**
  * Central configuration for the landing page.
  *
- * PLATSHÅLLARE: `bookingUrl`, `video` and the screenshot `src` values are
+ * PLATSHÅLLARE: `bookingUrl`, `contactEmail`, `video` and the screenshot `src` values are
  * intentionally empty until the real assets are provided. Every component
  * falls back to a clearly labelled placeholder while they are `null`.
  */
@@ -23,6 +23,14 @@ export const site = {
   bookingUrl: (process.env.NEXT_PUBLIC_BOOKING_URL || null) as string | null,
 
   /**
+   * PLATSHÅLLARE: godkänd kontaktadress för mötesförfrågningar, t.ex. VD:ns e-post.
+   * Ange den här eller via miljövariabeln NEXT_PUBLIC_CONTACT_EMAIL – gissa inte en adress.
+   * Används bara när ingen giltig bokningslänk finns: sektionen #boka-mote visar då
+   * "Förfråga Möte Med Vår VD", som öppnar ett e-postutkast (se `meetingMode` nedan).
+   */
+  contactEmail: (process.env.NEXT_PUBLIC_CONTACT_EMAIL || null) as string | null,
+
+  /**
    * PLATSHÅLLARE: produktvideo ("Hur Fungerar AnsöAI?" på kanalen AnsökAI).
    * Ingen verifierad länk finns ännu – gissa inte en URL.
    * - `src`: en vanlig YouTube-/Vimeo-länk (t.ex. "https://www.youtube.com/watch?v=…",
@@ -30,18 +38,20 @@ export const site = {
    *   integritetsvänlig inbäddning utan autoplay. Alternativt en lokal fil,
    *   t.ex. "/assets/ansok-ai-demo.mp4".
    * - `poster`: valfri förhandsbild för lokala videofiler, t.ex. "/assets/video-poster.jpg".
+   * Länken kan anges här eller via miljövariabeln NEXT_PUBLIC_VIDEO_URL. Utan länk
+   * visas en tydligt märkt "Video kommer snart"-presentation i stället.
    */
   video: {
-    src: null as string | null,
+    src: (process.env.NEXT_PUBLIC_VIDEO_URL || null) as string | null,
     poster: null as string | null,
   },
 } as const;
 
 export const navLinks = [
-  { href: "#video", label: "Produktvideo" },
   { href: "#marknad", label: "Marknaden" },
-  { href: "#produkt", label: "Produkten" },
   { href: "#resa", label: "Vår resa" },
+  { href: "#produkt", label: "Produkten" },
+  { href: "#demo", label: "Demo" },
 ] as const;
 
 /** Accepts only absolute https URLs, so a typo or unsafe scheme can never become a CTA link. */
@@ -95,3 +105,34 @@ export const allowIndexing =
 export const bookingUrl = toSecureUrl(site.bookingUrl);
 
 export const isBookingPlaceholder = bookingUrl === null;
+
+/** Accepts a single plain address only, so no extra recipients or mailto parameters can be injected. */
+function toValidEmail(value: string | null): string | null {
+  const email = value?.trim();
+  if (!email || email.length > 254) return null;
+  return /^[A-Za-z0-9._+-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(email) ? email : null;
+}
+
+/** The validated contact email, or `null` when none is configured. */
+export const contactEmail = toValidEmail(site.contactEmail);
+
+/** Pre-filled e-mail draft for a meeting request (Swedish subject and a short template). */
+export const meetingRequestHref = contactEmail
+  ? `mailto:${contactEmail}?subject=${encodeURIComponent("Mötesförfrågan – Ansök AI")}&body=${encodeURIComponent(
+      "Hej!\n\nJag vill gärna boka ett möte med Ansök AI:s VD.\n\nNamn:\nOrganisation:\nFörslag på tider:\n",
+    )}`
+  : null;
+
+/**
+ * How the meeting CTA behaves, in priority order:
+ * 1. "booking" – a valid https booking URL: "Boka Möte Med Vår VD" opens it in a new tab.
+ * 2. "email" – no booking URL but a valid contact email: #boka-mote offers
+ *    "Förfråga Möte Med Vår VD", which opens an e-mail draft.
+ * 3. "unavailable" – neither: #boka-mote states honestly that booking is not open yet.
+ * Hero and navbar buttons lead to #boka-mote in modes 2 and 3.
+ */
+export const meetingMode: "booking" | "email" | "unavailable" = bookingUrl
+  ? "booking"
+  : meetingRequestHref
+    ? "email"
+    : "unavailable";

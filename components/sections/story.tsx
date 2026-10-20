@@ -20,15 +20,14 @@ const milestones: Milestone[] = [
     icon: FlaskConical,
     status: "done",
     title: "En tidig prototyp i Sverige",
-    description:
-      "Ansök AI började som en tidig prototyp i Sverige, byggd för att göra det enklare och mindre tidskrävande att söka jobb.",
+    description: "För att testa marknaden släppte vi en tidig prototyp i Sverige.",
   },
   {
     icon: Users,
     status: "done",
     title: "Betalande kunder från start",
     description:
-      "Redan prototypen hade betalande kunder. Det gav oss en tidig signal om att det finns ett behov att bygga vidare på.",
+      "Det smärtsamma problemet fick folk att betala för en ofungerande produkt, vilket bevisar en extrem betalningsvilja för att faktiskt lösa det här problemet.",
     companyClaim: {
       source: "Uppgift från Ansök AI",
       needsConfirmation:
@@ -37,17 +36,16 @@ const milestones: Milestone[] = [
   },
   {
     icon: Hammer,
-    status: "ongoing",
-    title: "Plattformen byggs om",
-    description:
-      "Just nu bygger vi om plattformen utifrån lärdomarna från prototypen, med målet att den ska kunna växa med fler användare.",
+    status: "done",
+    title: "Plattformen byggdes om",
+    description: "När vi fick det beviset stängde vi ner testet och byggde om plattformen från grunden.",
   },
   {
     icon: Globe2,
-    status: "planned",
-    title: "Expansion i Norden",
+    status: "ongoing",
+    title: "Lansering i Norden",
     description:
-      "Planen är att därefter erbjuda Ansök AI i fler nordiska länder, där jobbsökande möter samma utmaningar.",
+      "Nu handlar det inte om att bevisa behovet, utan om att lansera, möta efterfrågan och skala över hela Norden.",
   },
 ];
 
@@ -122,7 +120,7 @@ export function Story() {
                 align="left"
                 eyebrow="Vår resa"
                 title="Från Svensk Prototyp Till Nordisk Plattform"
-                description="Var vi kommer ifrån, vad vi arbetar med just nu och vart vi är på väg – ett mål genom alla steg: att göra jobbsökandet enklare för fler människor."
+                description="Ansök AI:s egen berättelse om resan hittills – från en tidig prototyp i Sverige till lansering i hela Norden. Uppgifterna inväntar verifiering av grundaren."
               />
               <Reveal delay={0.1}>
                 <ul aria-label="Förklaring av status" className="mt-8 flex flex-wrap gap-2">
