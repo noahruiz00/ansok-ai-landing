@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private source screenshots (profile photo, staging URL, unverified statistics) – keep local, never publish
+/source-assets/private-screenshots/
