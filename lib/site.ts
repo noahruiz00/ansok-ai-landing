@@ -69,6 +69,7 @@ export const navLinks = [
   { href: "#resa", label: "Vår resa" },
   { href: "#produkt", label: "Produkten" },
   { href: "#demo", label: "Demo" },
+  { href: "#intakter", label: "Intäkter" },
 ] as const;
 
 /** Accepts only absolute https URLs, so a typo or unsafe scheme can never become a CTA link. */

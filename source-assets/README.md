@@ -4,6 +4,16 @@ Files in this folder are **not** part of the website. Anything in `public/` is
 downloadable by anyone; these files are kept here instead so they are never
 served by Next.js.
 
+## `brand/` (committed)
+
+Brand originals that no page currently uses, kept out of `public/` so they are
+not downloadable:
+
+| File | Notes |
+| --- | --- |
+| `ansok-ai-logo-horizontal.png` | Original logo on white (508 KB). The site uses the transparent and on-dark versions in `public/assets/`. |
+| `ansok-ai-logo-square.jpg` | Square logo – suitable as a social-media profile avatar. |
+
 ## `private-screenshots/` (git-ignored)
 
 Original, unmodified screenshots that must not be published:

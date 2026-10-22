@@ -17,11 +17,36 @@ import { navLinks } from "@/lib/site";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (value) => setScrolled(value > 24));
+
+  // Lock the page scroll while the menu overlay is open. Closing the menu
+  // (also via a menu link) restores scrolling before the smooth scroll starts.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
+  // The panel is hidden from lg up (lg:hidden): close the menu if the viewport
+  // grows past that, so the scroll lock never outlives a visible menu.
+  useEffect(() => {
+    if (!open) return;
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const onChange = () => {
+      if (desktop.matches) setOpen(false);
+    };
+    onChange();
+    desktop.addEventListener("change", onChange);
+    return () => desktop.removeEventListener("change", onChange);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -30,6 +55,27 @@ export function Navbar() {
         setOpen(false);
         // Return focus to the toggle instead of leaving it on a link that is about to unmount.
         menuButtonRef.current?.focus();
+        return;
+      }
+
+      // The open menu behaves like a modal (page scroll is locked), so keep
+      // Tab inside the header: logo, toggle and the panel's links/CTA.
+      if (event.key !== "Tab") return;
+      const header = headerRef.current;
+      if (!header) return;
+      const focusables = Array.from(
+        header.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"),
+      ).filter((el) => el.getClientRects().length > 0);
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (!first || !last) return;
+      const active = document.activeElement;
+      if (event.shiftKey && (active === first || !header.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || !header.contains(active))) {
+        event.preventDefault();
+        first.focus();
       }
     };
     window.addEventListener("keydown", onKeyDown);
@@ -40,6 +86,7 @@ export function Navbar() {
 
   return (
     <header
+      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         solid
           ? "border-b border-slate-200/70 bg-white/85 shadow-[0_8px_30px_-20px_rgb(3_10_31/0.35)] backdrop-blur-xl"

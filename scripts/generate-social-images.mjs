@@ -17,7 +17,7 @@ const size = { width: 1200, height: 630 };
 const alt =
   "Ansök AI – Smartare jobbsökande med Ansök AI. AI-driven hjälp för att hitta relevanta jobb och förenkla ansökningsprocessen.";
 
-// Official horizontal logo (transparent version of public/assets/ansok-ai-logo-horizontal.png, 1169×316).
+// Official horizontal logo (transparent version of source-assets/brand/ansok-ai-logo-horizontal.png, 1169×316).
 const LOGO = { file: "public/assets/ansok-ai-logo-horizontal-transparent.png", width: 1169, height: 316 };
 const navy = "#030a1f";
 const brand = "#1d55eb";
